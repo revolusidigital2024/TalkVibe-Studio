@@ -375,15 +375,13 @@ async function startServer() {
     });
   }
 
-  // Hanya jalankan app.listen jika TIDAK sedang di Vercel
-if (process.env.VERCEL !== '1' && process.env.NODE_ENV !== 'production') {
   app.listen(PORT, "0.0.0.0", () => {
-    console.log(`Server running on port ${PORT}`);
+    console.log(`Server running on http://localhost:${PORT}`);
   });
 }
 
-// WAJIB ditambahkan agar Vercel bisa membaca Express sebagai module
-export default app;
+if (!process.env.VERCEL) {
+  startServer();
 }
 
-startServer();
+export default app;
