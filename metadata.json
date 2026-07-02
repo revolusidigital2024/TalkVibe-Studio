@@ -1,0 +1,6 @@
+{
+  "name": "VEO Prompt Studio",
+  "description": "AI-powered prompt generator for VEO (image-to-video) tailored for life perspective content.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
