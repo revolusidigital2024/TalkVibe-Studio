@@ -26,7 +26,14 @@ function handleError(res: express.Response, error: any, defaultMsg: string) {
 }
 
 const app = express();
-app.use(express.json());
+app.use((req: any, res, next) => {
+  if (req.body !== undefined) {
+    // Vercel already parsed the body
+    next();
+  } else {
+    express.json()(req, res, next);
+  }
+});
 const PORT = 3000;
 
 const generationSchema: Schema = {
@@ -361,7 +368,8 @@ ATURAN WAJIB:
 
 async function startServer() {
   if (process.env.NODE_ENV !== 'production') {
-    const { createServer: createViteServer } = await import('vite');
+    const viteName = 'vite';
+    const { createServer: createViteServer } = await import(viteName);
     const vite = await createViteServer({
       server: { middlewareMode: true },
       appType: 'spa',
