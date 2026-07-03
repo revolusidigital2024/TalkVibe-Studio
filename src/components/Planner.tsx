@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { SavedPrompt, ContentPlanResponse } from '../types';
 import { CalendarDays, Loader2, Sparkles, Plus, CheckCircle2, FileText, Wand2 } from 'lucide-react';
 import { fetchWithKeyRotation } from '../utils/api';
@@ -15,6 +15,19 @@ export function Planner({ niche, savedPrompts, onGeneratePrompt }: PlannerProps)
   const [apiStatus, setApiStatus] = useState<string | null>(null);
   const [plan, setPlan] = useState<ContentPlanResponse | null>(null);
 
+  useEffect(() => {
+    if (niche) {
+      const saved = localStorage.getItem(`redi_planner_${niche}`);
+      if (saved) {
+        try {
+          setPlan(JSON.parse(saved));
+        } catch(e) {}
+      } else {
+        setPlan(null);
+      }
+    }
+  }, [niche]);
+
   const generatePlanner = async () => {
     setIsGenerating(true);
     setStatus('Merancang konten 7 hari...');
@@ -27,6 +40,7 @@ export function Planner({ niche, savedPrompts, onGeneratePrompt }: PlannerProps)
       }, setApiStatus);
       
       setPlan(data);
+      localStorage.setItem(`redi_planner_${niche}`, JSON.stringify(data));
     } catch (err: any) {
       console.error(err);
       alert(err.message || 'Gagal membuat planner.');

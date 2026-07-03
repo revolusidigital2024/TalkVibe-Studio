@@ -49,7 +49,7 @@ export const NICHES = [
   "Motivasi / self-improvement (umum)"
 ];
 
-export const PARTS_OPTIONS = [2, 3, 4];
+export const PARTS_OPTIONS = [1, 2, 3, 4];
 
 export const HOOK_STYLES = [
   "Provokatif (Menantang opini umum/Anti-mainstream)",

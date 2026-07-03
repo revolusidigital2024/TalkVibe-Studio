@@ -119,12 +119,36 @@ KARAKTERISTIK KONTROVERSI PER NICHE:
 Semua niche: gunakan angle storytelling personal ("gua dulu...", "gua sadar...") dikombinasikan dengan pernyataan kontra yang bikin orang berhenti scroll. HINDARI klaim otoritas profesional.
 
 ATURAN STRUKTUR DIALOGUE:
+JIKA parts_count HANYA 1 (Video Pendek 10 detik Omni Flash):
+- Fokuskan HANYA pada 1 part yang padat. Isi dengan hook singkat di awal dan langsung diakhiri dengan punchline/insight.
+
+JIKA parts_count > 1 (VEO):
 1. Part PERTAMA: selalu hook/pembuka kuat.
 2. Part TENGAH (jika >2 part): melanjutkan alur logis/cerita, TIDAK BOLEH terasa seperti kesimpulan — harus terasa "masih lanjut".
 3. Part TERAKHIR: WAJIB closing/insight dengan "punch" yang quotable. Satu-satunya part yang boleh terasa selesai. JANGAN dibuat menggantung.
 4. Setiap part berhenti di titik kalimat natural.
 
 STRUKTUR PROMPT WAJIB (Ikuti persis format ini, WAJIB GUNAKAN ENTER/NEWLINE untuk memisahkan setiap bagian agar rapi):
+
+JIKA parts_count = 1:
+Hasilkan SATU prompt saja (PROMPT 1), yang merangkum keseluruhan ekspresi dari awal hingga akhir. Tidak ada prompt Extend.
+PROMPT 1:
+SCENE: [gestur/ekspresi dari awal hingga selesai]
+
+CHARACTER:
+[Isi dari CHARACTER LOCK]
+
+VOICE:
+[Isi dari VOICE LOCK]
+
+DIALOGUE:
+"[isi keseluruhan monolog]"
+
+CAMERA:
+Subtle continuous slow zoom-in throughout the shot, slight natural handheld sway, [gestur awal] transitions to [gestur penutup final].
+
+
+JIKA parts_count > 1:
 PROMPT 1 (TANPA kata "Extend"):
 SCENE: [gestur/ekspresi yang BELUM SELESAI di akhir clip]
 
@@ -223,7 +247,7 @@ app.post('/api/generate-prompts', async (req, res) => {
       return res.status(400).json({ error: 'Missing required setup fields.' });
     }
 
-    const promptText = `Tolong buatkan ${parts} part prompt VEO untuk niche: ${niche}.
+    const promptText = `Tolong buatkan ${parts} part prompt ${parts === 1 ? 'Omni Flash' : 'VEO'} untuk niche: ${niche}.
 ${hookStyle ? `GAYA HOOK/INTRO: ${hookStyle}. Pastikan part pertama (Hook) sangat mencerminkan gaya ini.` : ''}
 ${customTopic ? `Fokus ke topik ini: ${customTopic}` : 'Buatkan topik kontroversial/menarik sesuai niche.'}
 

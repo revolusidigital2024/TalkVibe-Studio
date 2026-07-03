@@ -372,7 +372,7 @@ export function SetupForm({ onComplete }: SetupFormProps) {
                       : 'bg-gray-800 text-gray-400 border-gray-700 hover:bg-gray-700'
                   }`}
                 >
-                  {p} Part {p === 2 ? '(~16s)' : p === 3 ? '(~24s)' : '(~32s)'}
+                  {p} Part {p === 1 ? '(~10s) - Omni Flash' : p === 2 ? '(~16s)' : p === 3 ? '(~24s)' : '(~32s)'}
                 </button>
               ))}
             </div>
