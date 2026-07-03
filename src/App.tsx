@@ -72,6 +72,17 @@ export default function App() {
         console.error(e);
       }
     }
+    
+    const savedSetup = localStorage.getItem('redi_setup_data');
+    if (savedSetup) {
+      try {
+        const parsed = JSON.parse(savedSetup);
+        setSetupData(parsed);
+        setIsEditingSetup(false);
+      } catch (e) {
+        console.error(e);
+      }
+    }
   }, []);
 
   const savePromptsToStorage = (prompts: SavedPrompt[]) => {
@@ -93,6 +104,7 @@ export default function App() {
       setTopicHistory([]);
     }
     setSetupData(data);
+    localStorage.setItem('redi_setup_data', JSON.stringify(data));
     setIsEditingSetup(false);
     setTopicIdeas(null);
   };
