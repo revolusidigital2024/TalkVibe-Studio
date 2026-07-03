@@ -23,9 +23,10 @@ const STYLE_OPTIONS = ['Santai (Lu-Gua)', 'Formal (Saya-Anda)', 'Kasual sopan (A
 
 interface SetupFormProps {
   onComplete: (data: { characterLock: string; voiceLock: string; niche: string; parts: number; hookStyle: string }) => void;
+  initialData?: { characterLock: string; voiceLock: string; niche: string; parts: number; hookStyle: string } | null;
 }
 
-export function SetupForm({ onComplete }: SetupFormProps) {
+export function SetupForm({ onComplete, initialData }: SetupFormProps) {
   // Dropdown States - Character
   const [charGender, setCharGender] = useState(GENDER_OPTIONS[0]);
   const [charEthnic, setCharEthnic] = useState(ETHNIC_OPTIONS[0]);
@@ -50,16 +51,16 @@ export function SetupForm({ onComplete }: SetupFormProps) {
   const [voiceStyleCustom, setVoiceStyleCustom] = useState('');
 
   // Final Output States
-  const [characterLock, setCharacterLock] = useState('');
-  const [voiceLock, setVoiceLock] = useState('');
+  const [characterLock, setCharacterLock] = useState(initialData?.characterLock || '');
+  const [voiceLock, setVoiceLock] = useState(initialData?.voiceLock || '');
   
   // Manual Override Flags
-  const [isManualChar, setIsManualChar] = useState(false);
-  const [isManualVoice, setIsManualVoice] = useState(false);
+  const [isManualChar, setIsManualChar] = useState(!!initialData?.characterLock);
+  const [isManualVoice, setIsManualVoice] = useState(!!initialData?.voiceLock);
 
-  const [niche, setNiche] = useState(NICHES[0]);
-  const [parts, setParts] = useState(2);
-  const [hookStyle, setHookStyle] = useState(HOOK_STYLES[0]);
+  const [niche, setNiche] = useState(initialData?.niche || NICHES[0]);
+  const [parts, setParts] = useState(initialData?.parts || 2);
+  const [hookStyle, setHookStyle] = useState(initialData?.hookStyle || HOOK_STYLES[0]);
   const [isEnhancingCharacter, setIsEnhancingCharacter] = useState(false);
   const [isEnhancingVoice, setIsEnhancingVoice] = useState(false);
   
@@ -134,10 +135,10 @@ export function SetupForm({ onComplete }: SetupFormProps) {
       <div className="bg-gradient-to-r from-gray-800 to-gray-900 px-8 py-6 border-b border-gray-800">
         <div className="flex items-center gap-3">
           <Settings2 className="w-7 h-7 text-purple-400" />
-          <h2 className="text-2xl font-bold tracking-tight text-white">Setup Awal Studio</h2>
+          <h2 className="text-2xl font-bold tracking-tight text-white">{initialData ? 'Edit Config Studio' : 'Setup Awal Studio'}</h2>
         </div>
         <p className="text-gray-400 mt-2 text-sm leading-relaxed">
-          Kunci karakter dan suara lu di sini (cuma sekali per sesi). Pilih dari opsi yang ada atau tulis manual.
+          {initialData ? 'Ubah niche, jumlah prompt, atau gaya hook lu tanpa kehilangan karakter visual dan suara.' : 'Kunci karakter dan suara lu di sini (cuma sekali per sesi). Pilih dari opsi yang ada atau tulis manual.'}
         </p>
       </div>
 

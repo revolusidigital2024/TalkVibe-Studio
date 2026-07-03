@@ -6,13 +6,14 @@ import { Dashboard } from './components/Dashboard';
 import { Planner } from './components/Planner';
 import { LicenseScreen } from './components/LicenseScreen';
 import { PromptGenerationResponse, TopicIdea, SavedPrompt } from './types';
-import { Sparkles, Loader2, RefreshCw, Wand2, Settings, LayoutDashboard, Video, CalendarDays } from 'lucide-react';
+import { Sparkles, Loader2, RefreshCw, Wand2, Settings, LayoutDashboard, Video, CalendarDays, Settings2 } from 'lucide-react';
 import { fetchWithKeyRotation } from './utils/api';
 
 export default function App() {
   const [isLicensed, setIsLicensed] = useState<boolean | null>(null);
   const [currentView, setCurrentView] = useState<'studio' | 'dashboard' | 'planner'>('studio');
   const [setupData, setSetupData] = useState<{ characterLock: string; voiceLock: string; niche: string; parts: number; hookStyle: string } | null>(null);
+  const [isEditingSetup, setIsEditingSetup] = useState(true);
   
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatingStatus, setGeneratingStatus] = useState('Menulis script...');
@@ -92,16 +93,11 @@ export default function App() {
       setTopicHistory([]);
     }
     setSetupData(data);
+    setIsEditingSetup(false);
     setTopicIdeas(null);
   };
 
-  const resetSetup = () => {
-    setSetupData(null);
-    setResult(null);
-    setTopicIdeas(null);
-    setTopicHistory([]);
-    setCustomTopic('');
-  };
+
 
   const generatePrompts = async (topic?: string) => {
     if (!setupData) return;
@@ -218,13 +214,13 @@ export default function App() {
             
             <div className="h-6 w-px bg-gray-800" />
 
-            {(currentView === 'studio' || currentView === 'planner') && setupData && (
+            {(currentView === 'studio' || currentView === 'planner') && setupData && !isEditingSetup && (
               <button
-                onClick={resetSetup}
-                className="text-sm font-semibold text-gray-400 hover:text-red-400 transition-colors flex items-center gap-1.5"
+                onClick={() => setIsEditingSetup(true)}
+                className="text-sm font-semibold text-gray-400 hover:text-purple-400 transition-colors flex items-center gap-1.5"
               >
-                <RefreshCw className="w-4 h-4" />
-                Reset Config
+                <Settings2 className="w-4 h-4" />
+                Edit Config
               </button>
             )}
             <button
@@ -256,9 +252,9 @@ export default function App() {
             }} 
           />
         ) : (
-          !setupData ? (
+          isEditingSetup ? (
             <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-              <SetupForm onComplete={handleSetupComplete} />
+              <SetupForm onComplete={handleSetupComplete} initialData={setupData} />
             </div>
           ) : (
             <div className="animate-in fade-in duration-500 flex flex-col items-center">
