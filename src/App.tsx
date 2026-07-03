@@ -117,6 +117,25 @@ export default function App() {
       }, setApiStatus);
       
       setResult(data);
+
+      // Auto-save to Dashboard (and to mark it "Selesai" in Planner)
+      const newSaved: SavedPrompt = {
+        id: Date.now().toString(),
+        date: new Date().toISOString(),
+        topic: activeTopic || data.niche,
+        result: data
+      };
+      
+      setSavedPrompts(prev => {
+        // Prevent duplicate saves of the same content
+        if (prev.some(p => p.topic === newSaved.topic && JSON.stringify(p.result.dialogue) === JSON.stringify(newSaved.result.dialogue))) {
+          return prev;
+        }
+        const updated = [newSaved, ...prev];
+        localStorage.setItem('veo_saved_prompts', JSON.stringify(updated));
+        return updated;
+      });
+
     } catch (err: any) {
       console.error(err);
       alert(err.message || 'Gagal generate prompt. Cek console atau API key.');

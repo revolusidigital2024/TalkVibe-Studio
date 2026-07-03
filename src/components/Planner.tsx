@@ -108,12 +108,21 @@ export function Planner({ niche, savedPrompts, onGeneratePrompt }: PlannerProps)
                     <p className="text-xs text-gray-400"><span className="text-gray-500 font-semibold">Angle:</span> {dayPlan.content1.hook_angle}</p>
                     <p className="text-xs text-gray-400"><span className="text-gray-500 font-semibold">Tujuan:</span> {dayPlan.content1.reason}</p>
                   </div>
-                  <button 
-                    onClick={() => onGeneratePrompt(dayPlan.content1.topic, dayPlan.content1.hook_angle)}
-                    className="w-full mt-2 py-2 bg-gray-800 hover:bg-purple-600 text-gray-300 hover:text-white rounded-lg text-xs font-bold transition-colors flex items-center justify-center gap-1.5 border border-gray-700 hover:border-transparent"
-                  >
-                    <Wand2 className="w-3.5 h-3.5" /> Buat Script & Prompt
-                  </button>
+                  {savedPrompts.some(p => p.topic === dayPlan.content1.topic) ? (
+                    <button 
+                      disabled
+                      className="w-full mt-2 py-2 bg-purple-900/30 text-purple-400 rounded-lg text-xs font-bold flex items-center justify-center gap-1.5 border border-purple-800/30 cursor-not-allowed"
+                    >
+                      <CheckCircle2 className="w-3.5 h-3.5" /> Selesai
+                    </button>
+                  ) : (
+                    <button 
+                      onClick={() => onGeneratePrompt(dayPlan.content1.topic, dayPlan.content1.hook_angle)}
+                      className="w-full mt-2 py-2 bg-gray-800 hover:bg-purple-600 text-gray-300 hover:text-white rounded-lg text-xs font-bold transition-colors flex items-center justify-center gap-1.5 border border-gray-700 hover:border-transparent"
+                    >
+                      <Wand2 className="w-3.5 h-3.5" /> Buat Script & Prompt
+                    </button>
+                  )}
                 </div>
 
                 <div className="h-px w-full bg-gray-800"></div>
@@ -127,12 +136,21 @@ export function Planner({ niche, savedPrompts, onGeneratePrompt }: PlannerProps)
                     <p className="text-xs text-gray-400"><span className="text-gray-500 font-semibold">Angle:</span> {dayPlan.content2.hook_angle}</p>
                     <p className="text-xs text-gray-400"><span className="text-gray-500 font-semibold">Tujuan:</span> {dayPlan.content2.reason}</p>
                   </div>
-                  <button 
-                    onClick={() => onGeneratePrompt(dayPlan.content2.topic, dayPlan.content2.hook_angle)}
-                    className="w-full mt-2 py-2 bg-gray-800 hover:bg-purple-600 text-gray-300 hover:text-white rounded-lg text-xs font-bold transition-colors flex items-center justify-center gap-1.5 border border-gray-700 hover:border-transparent"
-                  >
-                    <Wand2 className="w-3.5 h-3.5" /> Buat Script & Prompt
-                  </button>
+                  {savedPrompts.some(p => p.topic === dayPlan.content2.topic) ? (
+                    <button 
+                      disabled
+                      className="w-full mt-2 py-2 bg-purple-900/30 text-purple-400 rounded-lg text-xs font-bold flex items-center justify-center gap-1.5 border border-purple-800/30 cursor-not-allowed"
+                    >
+                      <CheckCircle2 className="w-3.5 h-3.5" /> Selesai
+                    </button>
+                  ) : (
+                    <button 
+                      onClick={() => onGeneratePrompt(dayPlan.content2.topic, dayPlan.content2.hook_angle)}
+                      className="w-full mt-2 py-2 bg-gray-800 hover:bg-purple-600 text-gray-300 hover:text-white rounded-lg text-xs font-bold transition-colors flex items-center justify-center gap-1.5 border border-gray-700 hover:border-transparent"
+                    >
+                      <Wand2 className="w-3.5 h-3.5" /> Buat Script & Prompt
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
